@@ -76,8 +76,6 @@ The same custom-JS logic, packaged as a Liquid snippet so the variant ID can be 
 const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
 ```
 
-**Why Liquid?** `recharge-widget-advanced-customizations` in the merchant portal can't process Liquid, so its variant ID must be hardcoded. As a theme snippet, Liquid resolves the variant at render time — no hardcoding, and it automatically follows the product being viewed.
-
 **Behavior flow:**
 
 1. Hooks into Recharge via the global `window.RechargeSubscriptionWidgetReady(api)` callback — runs once the widget API is ready.
