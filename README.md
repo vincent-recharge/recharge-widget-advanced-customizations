@@ -64,7 +64,7 @@ All rules target `::part(rc-*)` components. High-level intent, section by sectio
 - `::part(rc-purchase-option__label)`: shared with the subscription header — centers the one-time row, keeps label + price on one line (`flex-wrap: nowrap`).
 - `::part(rc-purchase-option__checked-indicator)`, `::part(rc-purchase-option__input)`: hidden — selection is communicated by the green card border, not a radio/checkbox.
 
-**Editor settings it depends on** (set in the widget editor): frequency display **List**, plan-name display, subscription/one-time labels, and strikethrough price enabled — the CSS matches that rendered structure.
+**Editor settings (set in the widget editor): frequency display **List**, plan-name display, subscription/one-time labels, and strikethrough price enabled. 
 
 ---
 
@@ -78,21 +78,21 @@ const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
 
 **Behavior flow:**
 
-1. Hooks into Recharge via the global `window.RechargeSubscriptionWidgetReady(api)` callback — runs once the widget API is ready.
+1. Hooks into Recharge via the global `window.RechargeSubscriptionWidgetReady(api)` callback. This runs once the widget API is ready.
 2. Registers a **capture-phase** click listener on `document`. Capture (instead of bubble) is needed because the widget lives in a Shadow DOM; the listener must see the click before the widget's own handlers consume it.
-3. On every click, walks `event.composedPath()` — the path crosses the shadow boundary — and checks whether any element's `part` attribute includes `rc-purchase-option__onetime`. That's how it detects "the user clicked the one-time option" despite being unable to query the shadow tree directly.
+3. On every click, it checks `event.composedPath()`  that the path crosses the shadow boundary and checks whether any element's `part` attribute includes `rc-purchase-option__onetime`. This is how it detects that "the user clicked the one-time option."
 4. If it matches: `preventDefault()` + `stopPropagation()` to suppress Recharge's normal subscription add-to-cart.
 5. Calls `addItemsToCart(VARIANT_ID)` → `POST /cart/add.js` with `{ items: [{ id: variantID, quantity: 1 }] }`. No `selling_plan` is sent, so Shopify treats it as a one-time purchase.
 
-**Config points / assumptions:**
+**Config points/assumptions:**
 
-- `product.selected_or_first_available_variant.id` — must be a **variant** ID (`/cart/add.js` rejects product IDs). Requires the snippet to render where `product` is available (product page/product template).
-- Subscriptions are handled natively by Recharge and are left untouched. This only intercepts the one-time click event and submits the item to the cart instead.
+- `product.selected_or_first_available_variant.id` — must be a **variant** ID (`/cart/add.js` rejects product IDs). Requires the snippet to render where the `product` is available (product page/product template).
+- Recharge handles subscriptions natively, so we leave them untouched. This only intercepts the one-time click event and submits the item to the cart instead.
 
 ---
 
 ## Install summary
 
 1. Paste `recharge-custom-widget-styling` into: Merchant portal → Cross-Sell & Upsell → Subscription widget → Customize → Edit styles → Advanced CSS.
-2. Add `recharge-widget-advanced-customizations` to the theme (`snippets/`) and render it on the product page (or wherever the widget appears and `product` is in scope).
+2. Add `recharge-widget-advanced-customizations` to the theme (`snippets/`) and render it on the product page (or wherever the widget appears and the `product` is in scope).
 3. Match the editor settings listed in the `recharge-custom-widget-styling` header comment so the styles align with the rendered structure.
