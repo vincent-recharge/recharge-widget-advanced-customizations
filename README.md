@@ -100,5 +100,3 @@ const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
 1. Paste `recharge-custom-widget-styling` into: Merchant portal → Cross-Sell & Upsell → Subscription widget → Customize → Edit styles → Advanced CSS.
 2. Add `recharge-widget-advanced-customizations` to the theme (`snippets/`) and render it on the product page (or wherever the widget appears and `product` is in scope).
 3. Match the editor settings listed in the `recharge-custom-widget-styling` header comment so the styles align with the rendered structure.
-
-See `TDD-PROMPT.md` for the full technical design document and verification checklist.
