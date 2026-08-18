@@ -1,0 +1,66 @@
+/*  This script is to extend the Recharge Widget where the setup is:
+- onetime purchase options will be a link and an AJAX add to cart call
+- All the selling plan options are showcased first and the onetime purchase option is showcased last as a link that has a custom action.
+*/
+<script>
+window.RechargeSubscriptionWidgetReady = (api) => {
+  const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
+
+  document.addEventListener(
+    "click",
+    (event) => {
+      const isOnetimeOption = event
+        .composedPath()
+        .some((el) =>
+          el
+            ?.getAttribute?.("part")
+            ?.split(" ")
+            .includes("rc-purchase-option__onetime"),
+        );
+
+      if (!isOnetimeOption) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      addItemsToCart(VARIANT_ID);
+      console.log("Onetime purchase option clicked");
+    },
+    true, // capture phase
+  );
+};
+
+async function addItemsToCart(VARIANT_ID) {
+  const variantID = VARIANT_ID; // Replace with your actual variant ID
+  const quantity = 1; // Set the desired quantity
+  try {
+    const response = await fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        items: [
+          {
+            id: variantID,
+            quantity: quantity,
+          },
+        ],
+      }),
+    });
+
+    if (response.ok) {
+      console.log("Item added to cart successfully");
+      // open the cart drawer after adding the item to the cart
+      const cartDrawer = document.querySelector("cart-drawer");
+      if (cartDrawer) {
+        cartDrawer.classList.add("active");
+      }
+    } else {
+      console.error("Failed to add item to cart");
+    }
+  } catch (error) {
+    console.error("Error adding item to cart:", error);
+  }
+}
+</script>

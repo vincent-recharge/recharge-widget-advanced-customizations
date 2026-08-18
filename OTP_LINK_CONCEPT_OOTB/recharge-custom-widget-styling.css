@@ -1,0 +1,253 @@
+/* ==========================================================================
+   Recharge Subscription Widget v2 — stacked plan-card layout
+   Paste into: Merchant portal > Cross-Sell & Upsell > Subscription widget >
+   Customize subscription widget > Edit styles > Advanced: enter custom CSS
+   (Flow-editor CSS is preferred: it's hosted per-config and A/B testable.)
+
+   Pair with these flow-editor settings (see chat notes for details):
+   - Frequency display type: List  (frequencyDisplayType: listGroup)
+   - Frequency display content: Plan name  (rename plans to "30-Day Supply" etc.)
+   - Subscription label: "Subscribe & Save up to 20%"
+   - Learn more text: "Why Subscribe?"
+   - One-time label: "Prefer just one?"
+   - Strikethrough price: enabled
+   Part names from:
+   https://docs.getrecharge.com/docs/how-to-update-the-subscription-widget-using-css
+   ========================================================================== */
+
+/* ---------- 1. Widget shell: drop the outer boxes -------------------- */
+
+::part(rc-content-wrap) {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+}
+
+/* You already have `::part(rc-purchase-option){ border:none !important; }` —
+   this extends it so neither purchase option renders as a box. The cards
+   below carry all the visual structure instead. */
+::part(rc-purchase-option),
+::part(rc-purchase-option__subscription),
+::part(rc-purchase-option__selected) {
+    border: none !important;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* ---------- 2. Header row --------------------------------------------- */
+
+/* "Subscribe & Save up to 20%" (text itself is set in the editor) */
+::part(rc-purchase-option__selector_subscription) {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+/* Savings live in the label now, so hide the floating badge */
+::part(rc-purchase-option__badge) {
+    display: none;
+}
+
+/* "Why Subscribe?" — restyle the Learn more trigger as a quiet link */
+::part(rc-learn-more__trigger) {
+    color: #5c635f;
+    font-size: 15px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* Subtitle "Free shipping. Pause or cancel anytime."
+   Re-purpose the benefits list as a single muted line.
+   (Replaces your current `::part(rc-benefits__list){display:none;}` —
+   set the benefits content to one plain line in the editor.) */
+::part(rc-benefits__list) {
+    --rc-widget-bullet-icon-image: none;
+    color: #6f736f;
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 2px 0 12px;
+    padding: 0;
+}
+
+/* Keep the "Deliver every:" label hidden (you already do this) */
+::part(rc-plans__label) {
+    display: none;
+}
+
+/* ---------- 3. Plan rows -> stacked cards ----------------------------- */
+
+::part(rc-plans-button-group),
+::part(rc-plans-button-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+/* Each plan becomes a full-width card:
+   title top-left, "10% Off" right-aligned */
+::part(rc-plans-button) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    row-gap: 6px;
+    width: 100%;
+    padding: 20px 16px;
+    background: #fbfbf9;
+    border: 1px solid #e4e4e1;
+    border-radius: 8px;
+    color: #121212;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+/* Selected card: white bg + green border (the "Most Popular" treatment) */
+::part(rc-plans-button__selected) {
+    background: #ffffff;
+    border-color: #2e6b4e;
+    color: #121212;
+}
+
+/* Plan title ("30-Day Supply" via plan-name display, or the interval) */
+::part(rc-plans-button__interval) {
+    font-size: 18px;
+    font-weight: 700;
+    justify-self: start;
+}
+
+/* "save 10%" -> lighter, right-aligned. Change the wording itself to
+   "{discount} Off" in the widget translations / save-label setting. */
+::part(rc-plans-button__discount) {
+    font-size: 15px;
+    font-weight: 400;
+    color: #3f453f;
+    justify-self: end;
+}
+
+/* "Most Popular" banner across the top of the SELECTED card.
+   Note: this follows the selection — pure CSS cannot pin it to one
+   specific plan (no per-plan parts / no :nth-child through ::part). */
+::part(rc-plans-button__selected)::before {
+    /*content: "Most Popular";*/
+    grid-column: 1 / -1;
+    margin: -20px -16px 6px; /* stretch edge-to-edge, cancel card padding */
+    padding: 8px 16px;
+    background: #b8efb2;
+    color: #14532d;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 7px 7px 0 0;
+}
+
+/* Checkmark benefit lines inside the selected card */
+::part(rc-plans-button__selected)::after {
+    content: "\2713  Save on every order \A \2713  Free Shipping, Pause or Cancel Anytime";
+    white-space: pre-line;
+    grid-column: 1 / -1;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #2a332d;
+}
+
+/* ---------- 4. Prices (subscription header) ---------------------------- */
+
+/* Strikethrough compare-at + discounted price on ONE line.
+   From the official CSS examples table (docs link in header comment). */
+::part(rc-purchase-option__prices) {
+    display: flex;
+    flex-direction: row; /* use row-reverse if your order renders flipped */
+    align-items: baseline;
+    gap: 8px;
+    font: 10px;
+}
+
+::part(rc-purchase-option__original-price) {
+    color: #9a9a96;
+    text-decoration: line-through;
+    font-weight: 400;
+}
+
+::part(rc-purchase-option__discounted-price) {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* ---------- 5. One-time section ("Prefer just one?") ------------------- */
+/* Target layout: "Prefer just one? $29.99" on a single centered line.
+
+   rc-purchase-option__label is SHARED with the subscription header, so
+   centering + no-wrap is applied there (bottom block). The label sits
+   inside the one-time section, which is a centered flex column. */
+
+::part(rc-purchase-option__onetime) {
+    margin-top: 12px;
+}
+
+/* One-time price: muted, inline with the link label */
+::part(rc-purchase-option__price) {
+    font-size: 14px;
+    font-weight: 400;
+    color: #4a4f4a;
+}
+
+/* ==========================================================================
+   Your existing rules (unchanged) — keep these below
+   ========================================================================== */
+
+::part(rc-purchase-option__checked-indicator),
+::part(rc-purchase-option__input) {
+    display: none !important;
+}
+
+::part(rc-purchase-option__onetime) {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+::part(rc-purchase-option__label) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; /* centers the one-time row (and sub header) */
+    flex-wrap: nowrap; /* keeps label + price on one line */
+    gap: 8px;
+    font-size: 15px;
+}
+
+::part(rc-purchase-option__selector_onetime) {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4a4f4a;
+    cursor: pointer;
+    /* the underline treatment from your mockup */
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    text-decoration-color: #4a4f4a;
+}
+
+::part(rc-purchase-option__selector_onetime):hover {
+    text-decoration: none;
+}
+
+::part(rc-benefits__list) {
+    display: none;
+}
+::part(rc-plans__label) {
+    display: none;
+}
+::part(rc-purchase-option) {
+    border: none !important;
+}
