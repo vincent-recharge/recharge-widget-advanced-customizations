@@ -2,6 +2,11 @@
 
 Extension of Recharge's turnkey Subscription Widget. It produces a **subscription-first** layout: selling plans render as stacked cards, and the one-time purchase option appears last as a quiet link that adds the item to the cart via AJAX.
 
+**Notice & Scope of Support**
+- **Starter Template Only:** This repository provides an example architecture and boilerplate code. It is not a complete, production-tested solution.
+- **User Responsibility:** Users and developers are responsible for extending, debugging, and maintaining the implementation within their own environments.
+- **As-Is:** This code is provided as-is without warranty or dedicated support.
+
 Two files do all the work:
 
 | File                                             | What it is                                  | Where it lives                                    |
