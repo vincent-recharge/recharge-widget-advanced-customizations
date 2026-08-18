@@ -89,9 +89,8 @@ const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
 
 **Config points / assumptions:**
 
-- `product.selected_or_first_available_variant.id` — must be a **variant** ID (`/cart/add.js` rejects product IDs). Requires the snippet to render where `product` is available (product page / product template).
-- `document.querySelector("cart-drawer")` — assumes the theme has a `cart-drawer` element; if missing, the item still adds but no drawer opens.
-- Subscriptions are handled natively by Recharge and are left untouched — this only intercepts the one-time link.
+- `product.selected_or_first_available_variant.id` — must be a **variant** ID (`/cart/add.js` rejects product IDs). Requires the snippet to render where `product` is available (product page/product template).
+- Subscriptions are handled natively by Recharge and are left untouched. This only intercepts the one-time click event and submits the item to the cart instead.
 
 ---
 
