@@ -70,7 +70,7 @@ All rules target `::part(rc-*)` components. High-level intent, section by sectio
 
 ## What `recharge-widget-advanced-customizations` does
 
-The same custom-JS logic, packaged as a Liquid snippet so the variant ID can be injected from the product page.
+In this example, JavaScript is packaged as a Liquid snippet so the product page can inject the variant ID.
 
 ```liquid
 const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
