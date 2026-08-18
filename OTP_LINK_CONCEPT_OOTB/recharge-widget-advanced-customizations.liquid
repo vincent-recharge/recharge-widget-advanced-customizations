@@ -32,7 +32,7 @@ window.RechargeSubscriptionWidgetReady = (api) => {
 };
 
 async function addItemsToCart(VARIANT_ID) {
-  const variantID = VARIANT_ID; // Replace with your actual variant ID
+  const variantID = VARIANT_ID;
   const quantity = 1; // Set the desired quantity
   try {
     const response = await fetch("/cart/add.js", {
@@ -51,12 +51,7 @@ async function addItemsToCart(VARIANT_ID) {
     });
 
     if (response.ok) {
-      console.log("Item added to cart successfully");
-      // open the cart drawer after adding the item to the cart
-      const cartDrawer = document.querySelector("cart-drawer");
-      if (cartDrawer) {
-        cartDrawer.classList.add("active");
-      }
+      /* --- Add custom Logic on post-add-to-cart handling here --- */
     } else {
       console.error("Failed to add item to cart");
     }
