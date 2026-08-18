@@ -1,4 +1,4 @@
-# Recharge Widget — One-Time Purchase Link Concept
+# Recharge Widget - One-Time Purchase Link Concept
 
 Extension of Recharge's turnkey Subscription Widget. It produces a **subscription-first** layout: selling plans render as stacked cards, and the one-time purchase option appears last as a quiet link that adds the item to the cart via AJAX.
 
