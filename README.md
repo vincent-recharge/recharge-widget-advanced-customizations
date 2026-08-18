@@ -64,7 +64,7 @@ All rules target `::part(rc-*)` components. High-level intent, section by sectio
 - `::part(rc-purchase-option__label)`: shared with the subscription header — centers the one-time row, keeps label + price on one line (`flex-wrap: nowrap`).
 - `::part(rc-purchase-option__checked-indicator)`, `::part(rc-purchase-option__input)`: hidden — selection is communicated by the green card border, not a radio/checkbox.
 
-**Editor settings (set in the widget editor): frequency display **List**, plan-name display, subscription/one-time labels, and strikethrough price enabled. 
+**Editor settings (set in the widget editor):** frequency display **List**, plan-name display, subscription/one-time labels, and strikethrough price enabled. 
 
 ---
 
