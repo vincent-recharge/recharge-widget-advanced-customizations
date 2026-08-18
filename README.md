@@ -83,7 +83,6 @@ const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
 3. On every click, walks `event.composedPath()` — the path crosses the shadow boundary — and checks whether any element's `part` attribute includes `rc-purchase-option__onetime`. That's how it detects "the user clicked the one-time option" despite being unable to query the shadow tree directly.
 4. If it matches: `preventDefault()` + `stopPropagation()` to suppress Recharge's normal subscription add-to-cart.
 5. Calls `addItemsToCart(VARIANT_ID)` → `POST /cart/add.js` with `{ items: [{ id: variantID, quantity: 1 }] }`. No `selling_plan` is sent, so Shopify treats it as a one-time purchase.
-6. On success, opens the theme's cart drawer via `document.querySelector("cart-drawer")`.
 
 **Config points / assumptions:**
 
