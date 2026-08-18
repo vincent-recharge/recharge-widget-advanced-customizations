@@ -1,7 +1,8 @@
-/*  This script is to extend the Recharge Widget where the setup is:
+{% comment %} 
+This script is to extend the Recharge Widget where the setup is:
 - onetime purchase options will be a link and an AJAX add to cart call
 - All the selling plan options are showcased first and the onetime purchase option is showcased last as a link that has a custom action.
-*/
+{% endcomment %}
 <script>
 window.RechargeSubscriptionWidgetReady = (api) => {
   const VARIANT_ID = {{ product.selected_or_first_available_variant.id }};
