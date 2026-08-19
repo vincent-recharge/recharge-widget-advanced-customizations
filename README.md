@@ -2,19 +2,17 @@
 
 Extension of Recharge's turnkey Subscription Widget. It produces a **subscription-first** layout: selling plans render as stacked cards, and the one-time purchase option appears last as a quiet link that adds the item to the cart via AJAX.
 
-***Notice & Scope of Support***
-- **Starter Template Only:** This repository provides an example architecture and boilerplate code. It is not a complete, production-tested solution.
-- **User Responsibility:** Users and developers are solely responsible for extending, debugging, and maintaining the implementation within their own environments.
-- **As-Is:** This code is provided as-is without warranty or dedicated support.
-
-
 Two files do all the work:
 
 | File                                             | What it is                                  | Where it lives                                    |
 | ------------------------------------------------ | ------------------------------------------- | ------------------------------------------------- |
 | `recharge-custom-widget-styling.css`             | Layout + styling for the widget             | Merchant portal → Widget → Edit styles → Advanced |
 | `recharge-widget-advanced-customizations.liquid` | Behavior: custom one-time add-to-cart logic | Theme snippet rendered on the product page        |
-
+---
+***Notice & Scope of Support***
+- **Starter Template Only:** This repository provides an example architecture and boilerplate code. It is not a complete, production-tested solution.
+- **User Responsibility:** Users and developers are solely responsible for extending, debugging, and maintaining the implementation within their own environments.
+- **As-Is:** This code is provided as-is without warranty or dedicated support.
 ---
 
 ## Background: Recharge's Shadow DOM
